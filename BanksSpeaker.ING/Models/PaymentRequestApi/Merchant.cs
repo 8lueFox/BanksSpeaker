@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BanksSpeaker.ING.Models
+namespace BanksSpeaker.ING.Models.PaymentRequestApi
 {
     class Merchant
     {

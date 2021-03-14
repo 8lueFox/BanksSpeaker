@@ -69,5 +69,19 @@ namespace BanksSpeaker.ING
             request.Headers.Add("Authorization", $"Bearer {accessToken}");
             request.Headers.Add("Signature", $"keyId=\"{keyId}\",algorithm=\"rsa-sha256\",headers=\"(request-target) date digest\",signature=\"{signature}\"");
         }
+
+        public static void AddHeadersWithAccessTokenWithpatch(this HttpRequestMessage request, X509Certificate2 cert, string digest, string reqPath, string keyId, string accessToken)
+        {
+            var currentDate = DateTime.Now.ToUniversalTime().ToString("r");
+
+            var signingString = $"(request-target): patch {reqPath}\ndate: {currentDate}\ndigest: {digest}";
+            var signature = cert.SignData(signingString);
+
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Digest", digest);
+            request.Headers.Add("Date", currentDate);
+            request.Headers.Add("Authorization", $"Bearer {accessToken}");
+            request.Headers.Add("Signature", $"keyId=\"{keyId}\",algorithm=\"rsa-sha256\",headers=\"(request-target) date digest\",signature=\"{signature}\"");
+        }
     }
 }
